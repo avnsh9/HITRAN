@@ -7,7 +7,7 @@ from hapi import *  #
 import numpy as np  #
 import os           #
 import json         #
-import get_ISO
+import get_ISO      #
 #####################
 def assign_db():
         with open("parameters.json") as f:
@@ -34,8 +34,27 @@ def main():
 
     # Downloading line list data
 
-    def download_ll(molecule):
-        GI, ISO_I, Mol = np.loadtxt("iso_list.txt", usecols=(0,1,3), unpack=True)
+    molecule="HD180"
+    
+
+    def mol_params(molecule):
+        GI, ISO_I, Mol, nu_min, nu_max= np.loadtxt("iso_list.txt", usecols=(0,1,3,5,6), unpack=True, dtype=str)
+        g = GI[Mol == molecule]
+        i = ISO_I[Mol == molecule]
+        min = nu_min[Mol == molecule]
+        max = nu_max[Mol == molecule]
+        return g,i,min,max
+         
+
+    def download_ll(molecule, g, i , min, max):
+        fetch(molecule, g, i , min, max)
+        
+    g,i,min,max = mol_params(molecule)
+    print(g,i,min,max)
+    # download_ll(molecule,int(g),int(i),float(min),float(max))
+         
+        
+
 
     
 
