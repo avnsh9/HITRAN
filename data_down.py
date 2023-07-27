@@ -8,14 +8,17 @@ import numpy as np  #
 import os           #
 import json         #
 import get_ISO      #
+import subprocess
 #####################
+
+#molecule="HD18O"
 def assign_db():
         with open("parameters.json") as f:
             param = json.load(f)
 
         db_begin(param["database_folder"])
         
-def main():
+def main(molecule):
 
     # Check if iso_list.txt file exist or not
     # if not then create it using get_ISO.py
@@ -34,11 +37,11 @@ def main():
 
     # Downloading line list data
 
-    molecule="HD180"
+    
     
 
     def mol_params(molecule):
-        GI, ISO_I, Mol, nu_min, nu_max= np.loadtxt("iso_list.txt", usecols=(0,1,3,5,6), unpack=True, dtype=str)
+        GI, ISO_I, Mol, nu_min, nu_max= np.loadtxt("iso_list.txt", usecols=(0,1,3,5,6), unpack=True, dtype='str')
         g = GI[Mol == molecule]
         i = ISO_I[Mol == molecule]
         min = nu_min[Mol == molecule]
@@ -50,10 +53,18 @@ def main():
         fetch(molecule, g, i , min, max)
         
     g,i,min,max = mol_params(molecule)
-    print(g,i,min,max)
-    # download_ll(molecule,int(g),int(i),float(min),float(max))
-         
-        
+
+    download_ll(molecule,int(g[0]),int(i[0]),float(min[0]),float(max[0]))
+
+    # convert downloaded data to .par format
+    with open("parameters.json") as f:
+        param = json.load(f)
+
+    if (int(g[0])<10):
+         dd = f'0{g[0]}'
+    file = f'{molecule}.data'
+    out_file = f'{param["kabs_out_folder"]}{dd}_{molecule}.par'
+    subprocess.run(['cp',file,out_file],cwd=param["database_folder"])
 
 
     
