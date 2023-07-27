@@ -1,4 +1,5 @@
 {
     "database_folder":"/home/annabinoy/workspace/line_list",
-    "kabs_out_folder":"/home/annabinoy/workspace/kabs/"
+    "kabs_out_folder":"/home/annabinoy/workspace/kabs/",
+    "helios_k_executable":"/home/annabinoy/workspace/HELIOS-K/"
 }

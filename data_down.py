@@ -41,18 +41,19 @@ def main(molecule):
     
 
     def mol_params(molecule):
-        GI, ISO_I, Mol, nu_min, nu_max= np.loadtxt("iso_list.txt", usecols=(0,1,3,5,6), unpack=True, dtype='str')
+        GI, ISO_I, Mol, q_file, nu_min, nu_max= np.loadtxt("iso_list.txt", usecols=(0,1,3,4,5,6), unpack=True, dtype='str')
         g = GI[Mol == molecule]
         i = ISO_I[Mol == molecule]
         min = nu_min[Mol == molecule]
         max = nu_max[Mol == molecule]
-        return g,i,min,max
+        q = q_file[Mol == molecule]
+        return g,i,min,max,q
          
 
     def download_ll(molecule, g, i , min, max):
         fetch(molecule, g, i , min, max)
         
-    g,i,min,max = mol_params(molecule)
+    g,i,min,max,q = mol_params(molecule)
 
     download_ll(molecule,int(g[0]),int(i[0]),float(min[0]),float(max[0]))
 
@@ -65,6 +66,11 @@ def main(molecule):
     file = f'{molecule}.data'
     out_file = f'{param["kabs_out_folder"]}{dd}_{molecule}.par'
     subprocess.run(['cp',file,out_file],cwd=param["database_folder"])
+
+    # Download partition file
+    url_q = f'https://hitran.org/data/Q/{q[0]}'
+    subprocess.run(['wget',f'{url_q}'],cwd=param["kabs_out_folder"])
+
 
 
     
