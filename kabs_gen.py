@@ -7,6 +7,9 @@ import subprocess
 
 def main(molecule):
     out,gg,ii = data_down.main(molecule)
+    param_data_4 = f'Species Name = {gg}_{ii}_{molecule}\n'
+
+    with open('para')
     with open("parameters.json") as f:
         param = json.load(f)
 
