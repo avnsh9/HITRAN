@@ -34,7 +34,7 @@ Use parameters.json file to set these parameters:
 
 ## Uses
 
-python kabs_gen.py -M <molecule>
+python kabs_gen.py -M `<molecule>`
 
 - Use molecule name as given in iso_list.txt file
 - There are certain molecules whose corresponding files are not available on HITRAN server, they are mentioned with "NA" in iso_list file
