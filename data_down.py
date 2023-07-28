@@ -61,6 +61,13 @@ def main(molecule):
     with open("parameters.json") as f:
         param = json.load(f)
 
+    dd = g[0]
+    ii = int(i[0])
+
+    symbols = ['A','B','C','D','E','F','G','H','I']
+
+    if (ii>10):
+        ii = symbols[(ii%10)-1]
     if (int(g[0])<10):
          dd = f'0{g[0]}'
     file = f'{molecule}.data'
@@ -70,6 +77,8 @@ def main(molecule):
     # Download partition file
     url_q = f'https://hitran.org/data/Q/{q[0]}'
     subprocess.run(['wget',f'{url_q}'],cwd=param["kabs_out_folder"])
+
+    return out_file,dd,ii
 
 
 

@@ -6,19 +6,42 @@ import json
 import subprocess
 
 def main(molecule):
-    data_down.main(molecule)
+    out,gg,ii = data_down.main(molecule)
     with open("parameters.json") as f:
         param = json.load(f)
 
     subprocess.run(['cp',f'{param["helios_k_executable"]}Hitran_species.dat','.'],cwd=param["kabs_out_folder"])
-    with subprocess.Popen([f'{param["helios_k_executable"]}hitran','-M','01','-ISO','5','-in','HD18O'],cwd=param["kabs_out_folder"],stdout=subprocess.PIPE) as p:
+    with subprocess.Popen([f'{param["helios_k_executable"]}hitran','-M',f'{gg}','-ISO',f'{ii}','-in',f'{molecule}'],cwd=param["kabs_out_folder"],stdout=subprocess.PIPE) as p:
         while True:
             text = p.stdout.read().decode("utf-8")
             print(text, end='', flush=True)
             if text == '' and p.poll() != None:
                 break
 
-    print('done')
+    print('done till bin file part\n Now deleting .par file')
+
+    
+
+    subprocess.run(['rm',f'{out}'],cwd=param["kabs_out_folder"])
+
+    print('file deleted !!!!')
+
+    # Generating cross sections
+
+    subprocess.run(['cp','auto.sh','pt800.txt',f'{param["kabs_out_folder"]}'])
+
+    subprocess.run(['chmod','+x','auto.sh'],cwd=param["kabs_out_folder"])
+
+    with subprocess.Popen('./auto.sh',cwd=param["kabs_out_folder"],stdout=subprocess.PIPE) as p:
+        while True:
+            text = p.stdout.read().decode("utf-8")
+            print(text,end='',flush=True)
+            # if(text == '' and p.poll() != None):
+            #     break
+
+    print('cross-section generation is done')
+
+
 
 
 
