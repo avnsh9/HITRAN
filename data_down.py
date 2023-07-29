@@ -11,7 +11,7 @@ import get_ISO      #
 import subprocess
 #####################
 
-molecule="H216O"
+#molecule="H216O"
 def assign_db():
         with open("parameters.json") as f:
             param = json.load(f)
