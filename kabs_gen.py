@@ -6,10 +6,20 @@ import json
 import subprocess
 
 def main(molecule):
+    
     out,gg,ii = data_down.main(molecule)
     param_data_4 = f'Species Name = {gg}_{ii}_{molecule}\n'
 
-    with open('para')
+    with open('param.dat','r') as f:
+        lines = f.readlines()
+
+    lines[4] = param_data_4
+
+    with open('param.dat','w') as f:
+        f.writelines(lines)
+
+
+    
     with open("parameters.json") as f:
         param = json.load(f)
 
@@ -31,16 +41,16 @@ def main(molecule):
 
     # Generating cross sections
 
-    subprocess.run(['cp','auto.sh','pt800.txt',f'{param["kabs_out_folder"]}'])
+    subprocess.run(['cp','auto.sh','pt800.txt','param.dat',f'{param["kabs_out_folder"]}'])
 
     subprocess.run(['chmod','+x','auto.sh'],cwd=param["kabs_out_folder"])
 
-    with subprocess.Popen('./auto.sh',cwd=param["kabs_out_folder"],stdout=subprocess.PIPE) as p:
+    with subprocess.Popen('./auto.sh',cwd=param["kabs_out_folder"],stdout=subprocess.PIPE,text=True,bufsize=1) as p:
         while True:
-            text = p.stdout.read().decode("utf-8")
+            text = p.stdout.readline()
             print(text,end='',flush=True)
-            # if(text == '' and p.poll() != None):
-            #     break
+            if text == '' and p.poll() != None:
+                break
 
     print('cross-section generation is done')
 

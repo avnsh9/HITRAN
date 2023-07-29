@@ -11,7 +11,7 @@ import get_ISO      #
 import subprocess
 #####################
 
-#molecule="HD18O"
+molecule="H216O"
 def assign_db():
         with open("parameters.json") as f:
             param = json.load(f)
@@ -85,4 +85,4 @@ def main(molecule):
     
 
 if __name__ == '__main__':
-    main()
+    main(molecule)

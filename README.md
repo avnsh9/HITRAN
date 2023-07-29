@@ -38,7 +38,8 @@ python kabs_gen.py -M `<molecule>`
 
 - Use molecule name as given in iso_list.txt file
 - There are certain molecules whose corresponding files are not available on HITRAN server, they are mentioned with "NA" in iso_list file
-- stdout of the running program is not piped, so you have to use htop in order to keep track of the progress
+- If you want to edit different paremeter like line width cutoff, profile, numax and numin, you can do it from "param.dat" file
+
 ## Acknowledgements
 
  - [R.V. Kochanov, I.E. Gordon, L.S. Rothman, P. Wcislo, C. Hill, J.S. Wilzewski, HITRAN Application Programming Interface (HAPI): A comprehensive approach to working with spectroscopic data, J. Quant. Spectrosc. Radiat. Transfer 177, 15-30 (2016)](https://linkinghub.elsevier.com/retrieve/pii/S0022407315302466)
