@@ -33,7 +33,8 @@ Use parameters.json file to set these parameters:
 
 
 ## Uses
-
+git clone https://github.com/avnsh9/HITRAN_automate.git
+cd HITRAN_automate
 python kabs_gen.py -M `<molecule>`
 
 - Use molecule name as given in iso_list.txt file
